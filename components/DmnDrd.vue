@@ -1,8 +1,8 @@
 <template>
   <div>
     <p v-if="loading">Loading DMN diagram...</p>
-    <p v-if="error" class="text-red-500">{{ error }}</p>
-    <div v-if="svg" v-html="svg"></div>
+    <p v-else-if="error" class="text-red-500">{{ error }}</p>
+    <div v-else-if="svg" v-html="svg"></div>
   </div>
 </template>
 
@@ -94,8 +94,8 @@ async function loadAndRenderDrd(path: string): Promise<void> {
 
     svg.value = svgElement.outerHTML
   } finally {
-    viewer.destroy()
     document.body.removeChild(container)
+    viewer.destroy()
   }
 }
 </script>
