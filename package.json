@@ -1,0 +1,49 @@
+{
+  "name": "slidev-addon-dmn",
+  "version": "0.1.0",
+  "description": "Display DMN decision tables and DRD diagrams in Slidev presentations",
+  "type": "module",
+  "scripts": {
+    "dev": "portless run sh -c 'npx slidev example.md --port $PORT --remote --bind 127.0.0.1'",
+    "build": "slidev build example.md",
+    "export": "slidev export example.md",
+    "screenshot": "slidev export example.md --format png"
+  },
+  "author": "Marco Schäck (https://github.com/emaarco)",
+  "license": "MIT",
+  "dependencies": {
+    "dmn-js": "17.6.0"
+  },
+  "devDependencies": {
+    "@slidev/cli": "52.14.1",
+    "@slidev/theme-default": "0.25.0",
+    "playwright-chromium": "1.58.2"
+  },
+  "keywords": [
+    "slidev",
+    "slidev-addon",
+    "dmn",
+    "dmn-js",
+    "bpmn.io",
+    "diagram",
+    "decision",
+    "decision-table",
+    "drd"
+  ],
+  "files": [
+    "components",
+    "vite.config.ts"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emaarco/slidev-addon-dmn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/emaarco/slidev-addon-dmn/issues"
+  },
+  "homepage": "https://github.com/emaarco/slidev-addon-dmn#readme"
+}
