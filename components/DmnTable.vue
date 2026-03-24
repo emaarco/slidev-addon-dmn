@@ -1,6 +1,7 @@
 <template>
   <div :style="{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: props.width, height: containerHeight }">
     <p v-if="loading">Loading DMN decision table...</p>
+    <p v-else-if="error" class="text-red-500">{{ error }}</p>
     <div ref="containerRef"
          class="dmn-table-wrapper"
          :class="{ 'hide-annotations': !props.showAnnotations }"
@@ -15,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import DmnViewer from 'dmn-js/lib/Viewer'
 import 'dmn-js/dist/assets/diagram-js.css'
 import 'dmn-js/dist/assets/dmn-js-shared.css'
@@ -25,6 +26,7 @@ import 'dmn-js/dist/assets/dmn-font/css/dmn-embedded.css'
 import { onSlideEnter } from '@slidev/client'
 
 const loading = ref(false)
+const error = ref<string | null>(null)
 const containerRef = ref<HTMLDivElement | null>(null)
 const isRendered = ref(false)
 
@@ -42,7 +44,7 @@ const props = withDefaults(defineProps<{
   showAnnotations: false,
 })
 
-const containerHeight = props.height === 'auto' ? '500px' : props.height
+const containerHeight = computed(() => props.height === 'auto' ? '500px' : props.height)
 
 /**
  * Polls for container dimensions to be ready before rendering.
@@ -71,6 +73,7 @@ async function renderDmnTable() {
   if (isRendered.value) return
   isRendered.value = true
   loading.value = true
+  error.value = null
 
   try {
     await waitForContainer()
@@ -100,6 +103,7 @@ async function renderDmnTable() {
 
   } catch (err) {
     isRendered.value = false
+    error.value = `Failed to load DMN: ${err instanceof Error ? err.message : String(err)}`
     console.error('DMN loading error:', err)
   } finally {
     loading.value = false
