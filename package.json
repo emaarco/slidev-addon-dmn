@@ -1,6 +1,6 @@
 {
   "name": "slidev-addon-dmn",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Display DMN decision tables and DRD diagrams in Slidev presentations",
   "type": "module",
   "scripts": {
