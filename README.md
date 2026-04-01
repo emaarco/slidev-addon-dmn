@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/slidev-addon-dmn)](https://www.npmjs.com/package/slidev-addon-dmn)
 [![license](https://img.shields.io/npm/l/slidev-addon-dmn)](https://github.com/emaarco/slidev-addon-dmn/blob/main/LICENSE)
+[![live demo](https://img.shields.io/badge/live%20demo-GitHub%20Pages-blue)](https://emaarco.github.io/slidev-addon-dmn/)
 
 Display DMN decision tables and DRD diagrams in your [Slidev](https://sli.dev/) presentations. Whether you're presenting decision logic, explaining business rules, or teaching DMN concepts — this addon has you covered!
 
