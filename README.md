@@ -106,6 +106,12 @@ Renders DMN Decision Tables directly in the slide. Perfect for presenting busine
 - **Styling**: Use Tailwind classes via the `class` prop to control sizing
 - **Export**: The `<DmnDrd>` component works seamlessly with Slidev's PDF/PNG export features
 
+## 🔗 Related
+
+> **Looking for BPMN?** If you're modeling business processes alongside your decisions, check out
+> [slidev-addon-bpmn](https://github.com/emaarco/slidev-addon-bpmn) — the sister addon for rendering
+> BPMN diagrams in Slidev!
+
 ## Contributing
 
 Contributions are welcome! Feel free to report bugs, suggest features via [issues](https://github.com/emaarco/slidev-addon-dmn/issues), submit pull requests with improvements, or share your ideas and use cases.
@@ -115,5 +121,4 @@ To develop locally: clone the repo, run `npm install`, then `npm run dev` to tes
 ## Credits
 
 - [dmn-js](https://github.com/bpmn-io/dmn-js) by [bpmn.io](https://bpmn.io/)
-- Inspired by [slidev-addon-bpmn](https://github.com/emaarco/slidev-addon-bpmn)
 - [bavaria-ipsum](https://bavaria-ipsum.de/) - for making the example slide a little more entertaining
