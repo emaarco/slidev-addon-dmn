@@ -16,9 +16,9 @@
     "dmn-js": "17.7.0"
   },
   "devDependencies": {
-    "@slidev/cli": "52.14.1",
+    "@slidev/cli": "52.14.2",
     "@slidev/theme-default": "0.25.0",
-    "playwright-chromium": "1.58.2"
+    "playwright-chromium": "1.59.1"
   },
   "keywords": [
     "slidev",
