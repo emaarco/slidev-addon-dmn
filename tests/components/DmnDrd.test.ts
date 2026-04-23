@@ -1,6 +1,5 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { nextTick } from 'vue'
 
 const { mockDestroy, mockImportXML, mockSaveSVG, mockOpen, mockGetViews, mockGetActiveViewer, MockDmnViewer } = vi.hoisted(() => ({
   mockDestroy: vi.fn(),
@@ -37,14 +36,6 @@ function mockFetchFailure() {
 
 describe('DmnDrd.vue', () => {
   beforeEach(() => {
-    mockDestroy.mockClear()
-    mockImportXML.mockClear()
-    mockSaveSVG.mockClear()
-    mockOpen.mockClear()
-    mockGetViews.mockClear()
-    mockGetActiveViewer.mockClear()
-    MockDmnViewer.mockClear()
-
     mockImportXML.mockResolvedValue(undefined)
     mockOpen.mockResolvedValue(undefined)
     mockGetViews.mockReturnValue([DRD_VIEW])
@@ -63,14 +54,10 @@ describe('DmnDrd.vue', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
   })
 
-  afterEach(() => {
-    vi.unstubAllGlobals()
-  })
-
   it('shows loading state initially', async () => {
     vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})))
     const wrapper = mount(DmnDrd, { props: { dmnFilePath: 'test.dmn' } })
-    await nextTick()
+    await flushPromises()
     expect(wrapper.text()).toContain('Loading DMN diagram...')
   })
 
@@ -80,8 +67,8 @@ describe('DmnDrd.vue', () => {
     await flushPromises()
 
     expect(wrapper.text()).not.toContain('Loading DMN diagram...')
-    expect(wrapper.html()).toContain('<svg')
-    expect(wrapper.html()).toContain('<rect')
+    expect(wrapper.find('svg').exists()).toBe(true)
+    expect(wrapper.find('svg rect').exists()).toBe(true)
   })
 
   it('shows error on fetch failure', async () => {
@@ -90,7 +77,7 @@ describe('DmnDrd.vue', () => {
     await flushPromises()
 
     expect(wrapper.text()).toContain('Failed to load DMN')
-    expect(wrapper.html()).not.toContain('<svg')
+    expect(wrapper.find('svg').exists()).toBe(false)
   })
 
   it('shows error when no DRD view found', async () => {
