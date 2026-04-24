@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: Miragon/pin-npm-dependencies@v1.0.0
+      - uses: Miragon/pin-npm-dependencies@v1
         with:
           files: package.json
 
