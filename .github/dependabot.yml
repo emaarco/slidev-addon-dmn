@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Config for npm dependencies
+  # Production npm dependencies — surfaced in CHANGELOG as `fix(deps)`
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -9,8 +9,12 @@ updates:
       - "dependencies"
     assignees:
       - "emaarco"
+    commit-message:
+      prefix: "fix"
+      include: "scope"
     groups:
-      dependencies:
+      production-dependencies:
+        dependency-type: "production"
         patterns:
           - "*"
         update-types:
@@ -19,7 +23,30 @@ updates:
           - "major"
     open-pull-requests-limit: 2
 
-  # Config for GitHub Actions
+  # Development npm dependencies — hidden from CHANGELOG as `chore(deps-dev)`
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    assignees:
+      - "emaarco"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      development-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+          - "minor"
+          - "major"
+    open-pull-requests-limit: 2
+
+  # GitHub Actions — hidden from CHANGELOG as `chore(deps)`
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -28,6 +55,9 @@ updates:
       - "dependencies"
     assignees:
       - "emaarco"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     groups:
       github-actions:
         patterns:
