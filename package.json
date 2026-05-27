@@ -24,7 +24,7 @@
     "@vue/test-utils": "2.4.10",
     "jsdom": "29.1.1",
     "playwright-chromium": "1.60.0",
-    "vitest": "4.1.6"
+    "vitest": "4.1.7"
   },
   "keywords": [
     "slidev",
