@@ -51,11 +51,32 @@ jobs:
   deploy-pages:
     needs: release-please
     if: ${{ needs.release-please.outputs.release_created == 'true' && inputs.dry_run != true }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: write
       id-token: write
-    uses: ./.github/workflows/deploy-pages.yml
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release-please.outputs.tag_name }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - run: npm ci
+      - run: npm run build:pages
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v5
 
   publish-dry-run:
     needs: release-please
