@@ -48,6 +48,15 @@ jobs:
       - run: npm run build --if-present
       - run: npm publish --provenance
 
+  deploy-pages:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' && inputs.dry_run != true }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml
+
   publish-dry-run:
     needs: release-please
     if: ${{ inputs.dry_run == true }}
