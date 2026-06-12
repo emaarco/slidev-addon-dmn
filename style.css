@@ -1,0 +1,35 @@
+/*
+ * Demo deck palette for example.md.
+ * Loaded globally by Slidev because it sits next to example.md (Slidev auto-imports
+ * style.css from the project root), so the heading/text styles apply on every slide
+ * rather than only the slide a <style> block would be scoped to. Not included in the
+ * published addon — see package.json#files.
+ */
+
+.slidev-layout h1,
+h1 {
+  color: #335de4;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.slidev-layout h2,
+h2 {
+  color: #1e3a8a;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.slidev-layout p,
+p {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.slidev-layout code,
+code {
+  color: #9333ea;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+}

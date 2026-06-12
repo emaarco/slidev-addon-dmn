@@ -2,32 +2,6 @@
 colorSchema: light
 ---
 
-<style>
-h1 {
-  color: #335DE4;
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
-h2 {
-  color: #1E3A8A;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-p {
-  color: #6b7280;
-  margin-bottom: 1rem;
-}
-
-code {
-  color: #9333ea;
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-</style>
-
 # slidev-addon-dmn
 
 Embed your DMN models direkt and gscheid – because screenshot Gefrickel is just zwider.
