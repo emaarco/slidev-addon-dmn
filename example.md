@@ -1,28 +1,6 @@
-<style>
-h1 {
-  color: #335DE4;
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
-h2 {
-  color: #1E3A8A;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-p {
-  color: #6b7280;
-  margin-bottom: 1rem;
-}
-
-code {
-  color: #9333ea;
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-</style>
+---
+colorSchema: light
+---
 
 # slidev-addon-dmn
 
@@ -33,6 +11,7 @@ No manual export chaos, just saubere decision diagrams!
 **Features:**
 - Static DRD rendering for PDFs and presentations
 - Decision Table rendering for rule visualization
+- Live DMN modeling for workshops and trainings
 
 ---
 
@@ -49,3 +28,27 @@ The `DmnDrd` component renders Decision Requirements Diagrams as static SVG imag
 The `DmnTable` component renders Decision Tables directly – the rules laid out sauber and klar! Your audience kapiert sofort how the decisions are made, koa langweiliges Gschwafel needed!
 
 <DmnTable dmnFilePath="./example.dmn" height="350px" fontSize="11px"></DmnTable>
+
+---
+
+## Live DMN Modeler
+
+The `DmnModeler` component embeds an editable diagram – hit **Edit** and the DMN opens fullscreen. Tweak the DRD, double-click the **Dish** decision to edit its table live, then **Close** and the slide reflects your changes. Ideal for workshops where you build decisions together with your audience!
+
+<DmnModeler dmnFilePath="./example.dmn" height="350px"></DmnModeler>
+
+---
+
+## Modeler with Camunda Panel
+
+Pass `engine="camunda"` and you get the Camunda properties panel side-by-side – edit ids, names and execution-related Camunda properties without Tool-Hopserei. The panel can be hidden via the toolbar when you need the full canvas.
+
+<DmnModeler dmnFilePath="./example.dmn" engine="camunda" height="350px"></DmnModeler>
+
+---
+
+## Blank Canvas Modeler
+
+No `dmnFilePath`? Dann gibt's nur die Zeichenfläche – a bare modeler for building a decision model from scratch in a live session.
+
+<DmnModeler height="350px"></DmnModeler>

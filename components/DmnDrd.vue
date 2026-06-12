@@ -13,9 +13,9 @@ import 'dmn-js/dist/assets/diagram-js.css'
 import 'dmn-js/dist/assets/dmn-js-shared.css'
 import 'dmn-js/dist/assets/dmn-js-drd.css'
 import 'dmn-js/dist/assets/dmn-font/css/dmn-embedded.css'
+import { useDmn } from '../composables/useDmn'
 
-const loading = ref(false)
-const error = ref<string | null>(null)
+const { loading, error, fetchDmnXml, withLoading } = useDmn()
 const svg = ref<string | null>(null)
 
 const props = withDefaults(defineProps<{
@@ -29,29 +29,12 @@ const props = withDefaults(defineProps<{
   fontSize: '12px',
 })
 
-onMounted(async () => {
-  loading.value = true
-  error.value = null
-
-  try {
-    await loadAndRenderDrd(props.dmnFilePath)
-  } catch (err) {
-    error.value = `Failed to load DMN: ${err instanceof Error ? err.message : String(err)}`
-    console.error('DMN loading error:', err)
-  } finally {
-    loading.value = false
-  }
+onMounted(() => {
+  withLoading(() => loadAndRenderDrd(props.dmnFilePath))
 })
 
 async function loadAndRenderDrd(path: string): Promise<void> {
-  const url = new URL(path, window.location.origin + import.meta.env.BASE_URL).href
-  const response = await fetch(url)
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch DMN file: ${response.status}`)
-  }
-
-  const dmnXml = await response.text()
+  const dmnXml = await fetchDmnXml(path)
 
   // Create off-screen container for dmn-js rendering (requires DOM element)
   const container = document.createElement('div')

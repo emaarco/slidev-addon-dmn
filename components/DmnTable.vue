@@ -24,9 +24,9 @@ import 'dmn-js/dist/assets/dmn-js-decision-table.css'
 import 'dmn-js/dist/assets/dmn-js-decision-table-controls.css'
 import 'dmn-js/dist/assets/dmn-font/css/dmn-embedded.css'
 import { onSlideEnter } from '@slidev/client'
+import { useDmn } from '../composables/useDmn'
 
-const loading = ref(false)
-const error = ref<string | null>(null)
+const { loading, error, fetchDmnXml } = useDmn()
 const containerRef = ref<HTMLDivElement | null>(null)
 const isRendered = ref(false)
 
@@ -77,12 +77,7 @@ async function renderDmnTable() {
 
   try {
     await waitForContainer()
-    const url = new URL(props.dmnFilePath, window.location.origin + import.meta.env.BASE_URL).href
-    const response = await fetch(url)
-
-    if (!response.ok) throw new Error(`Failed to fetch DMN file: ${response.status}`)
-
-    const dmnXml = await response.text()
+    const dmnXml = await fetchDmnXml(props.dmnFilePath)
     const viewer = new DmnViewer({
       container: containerRef.value!,
     })
