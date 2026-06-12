@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.1.0...v1.2.0) (2026-06-12)
+
+
+### Features
+
+* add interactive DmnModeler component ([#33](https://github.com/emaarco/slidev-addon-dmn/issues/33)) ([aa5e077](https://github.com/emaarco/slidev-addon-dmn/commit/aa5e0773b25e5ae809f25cfee9c5d46f4cbf3dbd))
+
 ## [1.1.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.0.0...v1.1.0) (2026-06-08)
 
 
