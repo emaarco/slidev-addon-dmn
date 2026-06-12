@@ -7,6 +7,8 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       'dmn-js/lib/Viewer',
+      'dmn-js/lib/Modeler',
+      'dmn-js-properties-panel',
     ],
   },
 })

@@ -12,7 +12,7 @@ Powered by [dmn-js](https://bpmn.io/toolkit/dmn-js/) from bpmn.io.
 
 1. Install the addon in your Slidev project
 2. Place your `.dmn` files in the `public/` folder
-3. Use the `<DmnDrd>` or `<DmnTable>` components in your slides
+3. Use the `<DmnDrd>`, `<DmnTable>` or `<DmnModeler>` components in your slides
 
 That's it — your DMN diagrams are ready to present!
 
@@ -47,10 +47,11 @@ Or in your `package.json`:
 
 ## 🧩 Components
 
-This addon provides two complementary components for different use cases:
+This addon provides three complementary components for different use cases:
 
 - **`<DmnDrd>`** - Static DRD rendering for PDFs, presentations, and documentation
 - **`<DmnTable>`** - Decision Table rendering for visualizing business rules
+- **`<DmnModeler>`** - Interactive DMN modeler for live editing during workshops and trainings, with an optional Camunda properties panel
 
 ## 🔧 Component Reference
 
@@ -97,6 +98,41 @@ Renders DMN Decision Tables directly in the slide. Perfect for presenting busine
 | `decisionId` | `string` | *first found* | ID of the decision to display (optional, defaults to the first decision table) |
 | `fontSize` | `string` | `'12px'` | Font size of the table content |
 | `showAnnotations` | `boolean` | `false` | Show or hide the annotations column |
+
+### DmnModeler Component
+
+Embeds an interactive DMN modeler for live editing. A thumbnail of the DRD is shown in the slide; clicking **Edit** opens the model fullscreen where you can rearrange the DRD and double-click a decision to edit its table. On **Close**, any changes are reflected back in the slide thumbnail. Ideal for workshops, trainings, and collaborative sessions.
+
+```vue
+<DmnModeler
+  dmnFilePath="./my-decisions.dmn"
+  width="100%"
+  height="500px"
+/>
+```
+
+Or start with a blank canvas:
+
+```vue
+<DmnModeler height="500px" />
+```
+
+Pass `engine="camunda"` to mount the Camunda properties panel side-by-side with the canvas, so you can edit ids, names, and Camunda-specific execution properties live:
+
+```vue
+<DmnModeler dmnFilePath="./my-decisions.dmn" engine="camunda" height="500px" />
+```
+
+In fullscreen mode, the panel can be hidden and shown again via the toolbar — handy when you need the full canvas width.
+
+**Props:**
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `dmnFilePath` | `string` | — | Optional path to a `.dmn` file (relative to `public/`). Omit for a blank diagram. |
+| `width` | `string` | `'100%'` | Width of the modeler container |
+| `height` | `string` | `'500px'` | Height of the modeler container |
+| `engine` | `'camunda'` | — | Optional engine. Mounts a `dmn-js-properties-panel` configured for Camunda. Omit for a panel-less modeler. |
 
 ## 💡 Tips
 

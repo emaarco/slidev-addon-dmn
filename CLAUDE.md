@@ -26,7 +26,10 @@ npm run screenshot
 
 ### Core Components
 
-The addon consists of two Vue components:
+The addon consists of three Vue components, backed by shared helpers in `composables/`
+(`useDmn.ts` — fetch + loading/error state), `internal/` (`ToolbarButton.vue`, `fitDiagram.ts`)
+and `engines/` (`camunda.ts` — properties-panel config). The `composables/`, `internal/` and
+`engines/` directories are published to npm alongside `components/`.
 
 #### `components/DmnDrd.vue`
 1. **Fetches DMN XML**: Loads `.dmn` files from the `public/` folder via fetch
@@ -40,6 +43,13 @@ The addon consists of two Vue components:
 3. **Opens decision table view**: Navigates to the specified decision table (or first found)
 4. **Dual lifecycle**: Uses both `onMounted` and `onSlideEnter` for PDF export and live preview compatibility
 
+#### `components/DmnModeler.vue`
+1. **Thumbnail viewer**: Renders a read-only DRD preview in the slide (`dmn-js/lib/Viewer`), fit via `fitDiagram`
+2. **Fullscreen editor**: An "Edit" button opens an interactive `dmn-js/lib/Modeler` in a `<Teleport>` overlay; edit the DRD and double-click a decision to edit its table
+3. **Save-on-close**: On close, `saveXML()` is compared to the loaded XML; if changed, the slide thumbnail re-renders
+4. **Optional Camunda panel**: With `engine="camunda"`, mounts `dmn-js-properties-panel` (config nested under the modeler's `drd:` key) with a hide/show toggle
+5. **Blank canvas**: With no `dmnFilePath`, imports a minimal blank DMN template so the modeler opens ready to edit
+
 ### Key Implementation Details
 
 - DmnDrd uses an **off-screen rendering approach** because dmn-js requires a DOM element to render DRD diagrams as SVG
@@ -47,6 +57,7 @@ The addon consists of two Vue components:
 - The off-screen container has a **fixed 1920x1080 size** for DRD rendering
 - SVG sizing is controlled via `maxWidth` and `height` style properties with `preserveAspectRatio="xMidYMid meet"` for responsive scaling
 - DMN file paths are resolved relative to `window.location.origin + import.meta.env.BASE_URL`
+- DmnModeler nests `additionalModules`/`propertiesPanel` under a **`drd:` key** (dmn-js modelers are composed of per-view editors), with `moddleExtensions` at the top level
 
 ### Vite Configuration
 
@@ -55,7 +66,8 @@ The `vite.config.ts` file is **critical** for this addon to work. It includes dm
 ## Package Distribution
 
 The npm package includes only:
-- `components/` directory (DmnDrd.vue and DmnTable.vue)
+- `components/` directory (DmnDrd.vue, DmnTable.vue, DmnModeler.vue)
+- `composables/`, `internal/`, `engines/` directories (shared helpers used by the components)
 - `vite.config.ts` (required Vite configuration)
 
 Everything else (`example.md`, `public/`, `docs/`) is excluded via the `files` field in package.json.
