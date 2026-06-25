@@ -152,7 +152,21 @@ In fullscreen mode, the panel can be hidden and shown again via the toolbar — 
 
 Contributions are welcome! Feel free to report bugs, suggest features via [issues](https://github.com/emaarco/slidev-addon-dmn/issues), submit pull requests with improvements, or share your ideas and use cases.
 
-To develop locally: clone the repo, run `npm install`, then `npm run dev` to test your changes.
+To develop locally: clone the repo and run `npm install`. The dev server runs behind
+[portless](https://portless.sh) (a pinned devDependency — no global install) for a stable,
+git-worktree-aware `.localhost` URL. Install the proxy daemon once per machine (needs sudo once):
+
+```bash
+npx portless service install
+```
+
+Then run the example presentation:
+
+```bash
+npm run dev        # via portless → https://slidev-addon-dmn.localhost
+                   # (in a git worktree → https://<worktree>.slidev-addon-dmn.localhost)
+npm run dev:app    # or run the Slidev server directly, without portless
+```
 
 ## 🙏 Credits
 
