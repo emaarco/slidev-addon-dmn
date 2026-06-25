@@ -9,8 +9,11 @@ This is a Slidev addon that enables displaying DMN (Decision Model and Notation)
 ## Development Commands
 
 ```bash
-# Run the example presentation in dev mode
+# Run the example presentation in dev mode (via portless — stable .localhost URL)
 npm run dev
+
+# Run the Slidev dev server directly, without portless
+npm run dev:app
 
 # Build the example presentation
 npm run build
@@ -20,6 +23,27 @@ npm run export
 
 # Export presentation to PNG screenshots
 npm run screenshot
+```
+
+### Dev server URLs (portless)
+
+`npm run dev` runs the Slidev server behind [portless](https://portless.sh), which is a
+pinned **devDependency** (no global install needed). portless replaces the dev port with a
+stable, git-worktree-aware URL: in the main checkout it serves
+`https://slidev-addon-dmn.localhost`, and in a linked git worktree it auto-derives
+`https://<worktree>.slidev-addon-dmn.localhost`. The slug is portless-derived — never
+hand-build it.
+
+Config lives in `portless.json` (`{ "name": "slidev-addon-dmn", "script": "dev:app" }`): `dev`
+is just the portless entrypoint, and the real Slidev command lives in `dev:app` so non-portless
+users can run the server directly. portless sets `$PORT`; Slidev binds to IPv4 via
+`--remote --bind 127.0.0.1` (its `localhost` default resolves to IPv6 `::1`, which portless
+can't proxy on macOS).
+
+**One-time per machine:** install the proxy daemon so it survives reboots (needs sudo once):
+
+```bash
+npx portless service install
 ```
 
 ## Architecture
