@@ -1,5 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { afterEach } from 'vitest'
+import { enableAutoUnmount, mount, flushPromises } from '@vue/test-utils'
+
+enableAutoUnmount(afterEach)
 
 const { mockImportXML, mockOpen, mockGetViews, MockDmnViewer } = vi.hoisted(() => ({
   mockImportXML: vi.fn(),

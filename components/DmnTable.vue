@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import DmnViewer from 'dmn-js/lib/Viewer'
 import 'dmn-js/dist/assets/diagram-js.css'
 import 'dmn-js/dist/assets/dmn-js-shared.css'
@@ -29,6 +29,14 @@ import { useDmn } from '../composables/useDmn'
 const { loading, error, fetchDmnXml } = useDmn()
 const containerRef = ref<HTMLDivElement | null>(null)
 const isRendered = ref(false)
+const isUnmounted = ref(false)
+
+// Stop the container-polling loop once the component goes away, otherwise the
+// recursive requestAnimationFrame keeps rescheduling forever when the container
+// never gains dimensions (e.g. a slide that is never shown, or a jsdom test).
+onBeforeUnmount(() => {
+  isUnmounted.value = true
+})
 
 const props = withDefaults(defineProps<{
   dmnFilePath: string
@@ -53,7 +61,9 @@ const containerHeight = computed(() => props.height === 'auto' ? '500px' : props
 async function waitForContainer(): Promise<void> {
   return new Promise((resolve) => {
     const checkDimensions = () => {
-      if (containerRef.value && containerRef.value.clientWidth > 0 && containerRef.value.clientHeight > 0) {
+      if (isUnmounted.value) {
+        resolve()
+      } else if (containerRef.value && containerRef.value.clientWidth > 0 && containerRef.value.clientHeight > 0) {
         resolve()
       } else {
         requestAnimationFrame(checkDimensions)
@@ -77,6 +87,7 @@ async function renderDmnTable() {
 
   try {
     await waitForContainer()
+    if (isUnmounted.value) return
     const dmnXml = await fetchDmnXml(props.dmnFilePath)
     const viewer = new DmnViewer({
       container: containerRef.value!,
