@@ -187,4 +187,18 @@ describe('DmnTable.vue', () => {
 
     expect(mockOpen).toHaveBeenCalledWith(TABLE_VIEW)
   })
+
+  it('hides the "View DRD" button by default', () => {
+    mockFetchSuccess()
+    const wrapper = mount(DmnTable, { props: { dmnFilePath: 'test.dmn' } })
+    expect(wrapper.find('div.dmn-table-wrapper').classes()).toContain('hide-drd-button')
+  })
+
+  it('keeps the "View DRD" button when showDrdButton is true', () => {
+    mockFetchSuccess()
+    const wrapper = mount(DmnTable, {
+      props: { dmnFilePath: 'test.dmn', showDrdButton: true },
+    })
+    expect(wrapper.find('div.dmn-table-wrapper').classes()).not.toContain('hide-drd-button')
+  })
 })
