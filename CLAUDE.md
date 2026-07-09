@@ -106,11 +106,3 @@ Use `example.md` as the test file - it demonstrates the component usage with a s
 ## Release & Publishing
 
 Releases are automated via [release-please](https://github.com/googleapis/release-please). Pushing conventional commits (`feat:`, `fix:`, `deps:`) to `main` opens a release PR; merging it creates the tag + GitHub Release and triggers `npm publish --provenance` via OIDC. Config: `release-please-config.json`, `.release-please-manifest.json`, workflow: `.github/workflows/release-please.yml`.
-
-## Skills
-
-This repo ships with custom Claude Code skills in `.claude/skills/`. When a task matches an available skill, then use this skill instead of implementing it manually.
-
-| Skill | Command | When to use |
-|-------|---------|-------------|
-| create-ticket | `/create-ticket` | Create a GitHub issue (feature, bug, or refactor) |
