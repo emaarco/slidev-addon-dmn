@@ -4,7 +4,7 @@
     <p v-else-if="error" class="text-red-500">{{ error }}</p>
     <div ref="containerRef"
          class="dmn-table-wrapper"
-         :class="{ 'hide-annotations': !props.showAnnotations }"
+         :class="{ 'hide-annotations': !props.showAnnotations, 'hide-drd-button': !props.showDrdButton }"
          :style="{
            width: `calc(${props.width} - ${5 * 2}px)`,
            height: `calc(${containerHeight} - ${5 * 2}px)`,
@@ -45,11 +45,13 @@ const props = withDefaults(defineProps<{
   decisionId?: string
   fontSize?: string
   showAnnotations?: boolean
+  showDrdButton?: boolean
 }>(), {
   width: '100%',
   height: 'auto',
   fontSize: '12px',
   showAnnotations: false,
+  showDrdButton: false,
 })
 
 const containerHeight = computed(() => props.height === 'auto' ? '500px' : props.height)
@@ -198,6 +200,11 @@ onSlideEnter(async () => {
 /* Hide annotations column when toggled off */
 .dmn-table-wrapper.hide-annotations th.annotation,
 .dmn-table-wrapper.hide-annotations td.annotation {
+  display: none !important;
+}
+
+/* Hide the "View DRD" button when toggled off */
+.dmn-table-wrapper.hide-drd-button .view-drd {
   display: none !important;
 }
 </style>

@@ -98,6 +98,7 @@ Renders DMN Decision Tables directly in the slide. Perfect for presenting busine
 | `decisionId` | `string` | *first found* | ID of the decision to display (optional, defaults to the first decision table) |
 | `fontSize` | `string` | `'12px'` | Font size of the table content |
 | `showAnnotations` | `boolean` | `false` | Show or hide the annotations column |
+| `showDrdButton` | `boolean` | `false` | Show or hide the built-in "View DRD" button |
 
 ### DmnModeler Component
 
