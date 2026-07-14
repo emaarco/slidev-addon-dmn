@@ -23,14 +23,14 @@
     "dmn-js-properties-panel": "3.11.1"
   },
   "devDependencies": {
-    "@slidev/cli": "52.15.2",
+    "@slidev/cli": "52.16.0",
     "@slidev/theme-default": "0.25.0",
     "@vitejs/plugin-vue": "6.0.7",
     "@vue/test-utils": "2.4.11",
     "jsdom": "29.1.1",
     "playwright-chromium": "1.61.1",
     "portless": "0.15.1",
-    "vitest": "4.1.9"
+    "vitest": "4.1.10"
   },
   "keywords": [
     "slidev",
