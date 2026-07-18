@@ -24,5 +24,6 @@ jobs:
           node-version: '24'
 
       - run: npm ci
+      - run: npm run lint:deps
       - run: npm test
       - run: npm run build
