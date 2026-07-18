@@ -51,9 +51,16 @@ npx portless service install
 ### Core Components
 
 The addon consists of three Vue components, backed by shared helpers in `composables/`
-(`useDmn.ts` — fetch + loading/error state), `internal/` (`ToolbarButton.vue`, `fitDiagram.ts`)
-and `engines/` (`camunda.ts` — properties-panel config). The `composables/`, `internal/` and
-`engines/` directories are published to npm alongside `components/`.
+(`useDmn.ts` — fetch + loading/error state), `shared/` (`ui/ToolbarButton.vue`,
+`lib/fitDiagram.ts`) and `engines/` (`camunda.ts` — properties-panel config). The
+`composables/`, `shared/` and `engines/` directories are published to npm alongside
+`components/`.
+
+`components/` is the addon's **public API**: Slidev auto-registers every file there as a
+global component in the consuming deck (by filename), so internal building blocks live in
+`shared/` instead — see `components/README.md`. Layer boundaries (imports only point "down":
+components → composables/engines/shared, and shared is a leaf) are enforced in CI by
+dependency-cruiser (`npm run lint:deps`, config in `.dependency-cruiser.cjs`).
 
 #### `components/DmnDrd.vue`
 1. **Fetches DMN XML**: Loads `.dmn` files from the `public/` folder via fetch
@@ -91,7 +98,7 @@ The `vite.config.ts` file is **critical** for this addon to work. It includes dm
 
 The npm package includes only:
 - `components/` directory (DmnDrd.vue, DmnTable.vue, DmnModeler.vue)
-- `composables/`, `internal/`, `engines/` directories (shared helpers used by the components)
+- `composables/`, `shared/`, `engines/` directories (shared helpers used by the components)
 - `vite.config.ts` (required Vite configuration)
 
 Everything else (`example.md`, `public/`, `docs/`) is excluded via the `files` field in package.json.
