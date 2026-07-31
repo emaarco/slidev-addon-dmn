@@ -465,11 +465,34 @@ onSlideEnter(async () => {
 }
 
 .dmn-simulate .dmn-table-wrapper .dmn-decision-table-container .decision-table-name {
-  font-size: calc(var(--dmn-table-font-size, 12px) * 1.5) !important;
+  font-size: calc(var(--dmn-table-font-size, 12px) * 1.25) !important;
 }
 
+/* Scale the header text with the variable too (mirrors DmnTable). dmn-js pins
+   these to fixed px, so without this they would stay huge once the body shrinks.
+   The `margin` on the labels is fixed px as well, so express it in `em` to keep
+   the header row height proportional to the font. */
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .input-label,
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .input-expression,
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .output-label,
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .output-name {
+  font-size: calc(var(--dmn-table-font-size, 12px) * 1) !important;
+  margin: 1em 0.4em !important;
+}
+
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .clause,
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .input-variable,
+.dmn-simulate .dmn-table-wrapper .dmn-decision-table-container thead .output-variable {
+  font-size: calc(var(--dmn-table-font-size, 12px) * 0.85) !important;
+}
+
+/* dmn-js pins the table body to `.tjs-container { font-size: 21px }`, so the rule
+   cells inherit that fixed size and ignore the `font-size` set on the container
+   above. Re-point it at the variable so the cell content — and therefore the row
+   height — scales with `fontSize`. */
 .dmn-simulate .dmn-table-wrapper .tjs-container {
   width: 100% !important;
+  font-size: var(--dmn-table-font-size, 12px) !important;
 }
 
 .dmn-simulate .dmn-table-wrapper .tjs-table-container {
