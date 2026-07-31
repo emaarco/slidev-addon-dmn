@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/emaarco/slidev-addon-dmn/compare/v1.5.0...v1.5.1) (2026-07-31)
+
+
+### Bug Fixes
+
+* scale decision-table body font with the fontSize prop ([#58](https://github.com/emaarco/slidev-addon-dmn/issues/58)) ([412f297](https://github.com/emaarco/slidev-addon-dmn/commit/412f2971a2e95843e9b8d2c58ff784c5e112adb5))
+
 ## [1.5.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.4.0...v1.5.0) (2026-07-31)
 
 
