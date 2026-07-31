@@ -8,6 +8,7 @@ any `.md` slide **without an import**:
 ```md
 <DmnDrd dmnFilePath="/example.dmn" />
 <DmnTable dmnFilePath="/example.dmn" />
+<DmnSimulate dmnFilePath="/example.dmn" />
 <DmnModeler engine="camunda" />
 ```
 
@@ -30,4 +31,5 @@ end users should mount it directly.
 |---|---|
 | `DmnDrd.vue` | Static SVG rendering of the DRD (off-screen render, best for PDF export) |
 | `DmnTable.vue` | Renders a DMN decision table directly in the DOM |
+| `DmnSimulate.vue` | Renders a decision table with an input form; evaluates it with FEEL and highlights the matched rule (DMN's answer to BPMN token simulation) |
 | `DmnModeler.vue` | Live DMN modeler; optional `engine` prop mounts a properties panel |

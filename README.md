@@ -12,7 +12,7 @@ Powered by [dmn-js](https://bpmn.io/toolkit/dmn-js/) from bpmn.io.
 
 1. Install the addon in your Slidev project
 2. Place your `.dmn` files in the `public/` folder
-3. Use the `<DmnDrd>`, `<DmnTable>` or `<DmnModeler>` components in your slides
+3. Use the `<DmnDrd>`, `<DmnTable>`, `<DmnSimulate>` or `<DmnModeler>` components in your slides
 
 That's it — your DMN diagrams are ready to present!
 
@@ -47,10 +47,11 @@ Or in your `package.json`:
 
 ## 🧩 Components
 
-This addon provides three complementary components for different use cases:
+This addon provides four complementary components for different use cases:
 
 - **`<DmnDrd>`** - Static DRD rendering for PDFs, presentations, and documentation
 - **`<DmnTable>`** - Decision Table rendering for visualizing business rules
+- **`<DmnSimulate>`** - Decision Table with an input form: evaluate the decision live and highlight the matching rule (DMN's answer to BPMN token simulation)
 - **`<DmnModeler>`** - Interactive DMN modeler for live editing during workshops and trainings, with an optional Camunda properties panel
 
 ## 🔧 Component Reference
@@ -99,6 +100,34 @@ Renders DMN Decision Tables directly in the slide. Perfect for presenting busine
 | `fontSize` | `string` | `'12px'` | Font size of the table content |
 | `showAnnotations` | `boolean` | `false` | Show or hide the annotations column |
 | `showDrdButton` | `boolean` | `false` | Show or hide the built-in "View DRD" button |
+
+### DmnSimulate Component
+
+Renders a Decision Table together with an input form and evaluates it live. Pick the inputs, hit **Simulate**, and the matching rule row is highlighted while the resulting output is shown below the table. Because DMN is declarative (no wandering token like BPMN), this is the DMN equivalent of a token simulation: feed inputs in, watch which rule fires. FEEL expressions are evaluated with the [feelin](https://github.com/nikku/feelin) engine.
+
+```vue
+<DmnSimulate
+  dmnFilePath="./my-decisions.dmn"
+  width="100%"
+  height="340px"
+/>
+```
+
+**Props:**
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| `dmnFilePath` | `string` | *required* | Path to the `.dmn` file (relative to `public/`) |
+| `width` | `string` | `'100%'` | Width of the container |
+| `height` | `string` | `'340px'` | Height of the decision table |
+| `decisionId` | `string` | *first found* | ID of the decision to simulate (defaults to the first decision table) |
+| `fontSize` | `string` | `'12px'` | Font size of the table content |
+| `showAnnotations` | `boolean` | `false` | Show or hide the annotations column |
+| `showDrdButton` | `boolean` | `false` | Show or hide the built-in "View DRD" button |
+
+> **Hit policies:** the full DMN set is supported — `UNIQUE`, `ANY`, `PRIORITY`, `FIRST`, `COLLECT` (incl. `SUM`/`MIN`/`MAX`/`COUNT` aggregation), `RULE ORDER` and `OUTPUT ORDER`. The rule(s) the policy actually reports are highlighted strongly; rules that merely matched but were dropped (e.g. under `FIRST`/`PRIORITY`) are shown as faint candidates. `PRIORITY` and `OUTPUT ORDER` use the output's `<outputValues>` list as the priority order. `UNIQUE`/`ANY` show a violation badge when their constraint is broken. Input cells are evaluated as FEEL unary tests via [feelin](https://github.com/nikku/feelin); an empty cell matches any value.
+>
+> The [`example.md`](./example.md) deck includes one slide per hit policy (`public/hit-policies/*.dmn`) demonstrating each behaviour live.
 
 ### DmnModeler Component
 

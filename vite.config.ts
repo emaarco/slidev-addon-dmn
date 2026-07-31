@@ -9,6 +9,7 @@ export default defineConfig({
       'dmn-js/lib/Viewer',
       'dmn-js/lib/Modeler',
       'dmn-js-properties-panel',
+      'feelin',
     ],
   },
 })
