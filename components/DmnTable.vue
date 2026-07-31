@@ -159,9 +159,13 @@ onSlideEnter(async () => {
   font-size: calc(var(--dmn-table-font-size, 12px) * 0.85) !important;
 }
 
-/* Force table to fill container width, no x-scroll */
+/* Force table to fill container width, no x-scroll. Also re-point the body font
+   size at the variable: dmn-js pins `.tjs-container` to a fixed 21px, so the rule
+   cells would otherwise ignore the `font-size` set on the container above and the
+   rows would never shrink. */
 .dmn-table-wrapper .tjs-container {
   width: 100% !important;
+  font-size: var(--dmn-table-font-size, 12px) !important;
 }
 
 .dmn-table-wrapper .tjs-table-container {

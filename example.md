@@ -44,7 +44,7 @@ The `DmnModeler` component embeds an editable diagram – hit **Edit** and the D
 
 The `DmnSimulate` component makes a table a **live decision** – pick the inputs, hit **Simulate**, the matching rule lights up. DMN's answer to BPMN token simulation: feed inputs in, watch the rule fire.
 
-<DmnSimulate dmnFilePath="./example.dmn" height="305px" fontSize="10px"></DmnSimulate>
+<DmnSimulate dmnFilePath="./example.dmn" height="305px" fontSize="9px"></DmnSimulate>
 
 ---
 
