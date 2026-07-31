@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.4.0...v1.5.0) (2026-07-31)
+
+
+### Features
+
+* add fullscreen mode to DmnSimulate ([#56](https://github.com/emaarco/slidev-addon-dmn/issues/56)) ([b596d5e](https://github.com/emaarco/slidev-addon-dmn/commit/b596d5e1bcfe0583369241b6c10bd8db9a161ebc))
+
 ## [1.4.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.3.0...v1.4.0) (2026-07-31)
 
 
