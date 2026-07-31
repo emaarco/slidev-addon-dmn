@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.3.0...v1.4.0) (2026-07-31)
+
+
+### Features
+
+* add DmnSimulate component for live decision evaluation ([#55](https://github.com/emaarco/slidev-addon-dmn/issues/55)) ([d495e57](https://github.com/emaarco/slidev-addon-dmn/commit/d495e574214ed2daef0756c8a71699a642dcf1e7))
+
+
+### Bug Fixes
+
+* subpath-navigation 404 on GitHub Pages + decouple Pages deploy from releases ([#45](https://github.com/emaarco/slidev-addon-dmn/issues/45)) ([fa5913a](https://github.com/emaarco/slidev-addon-dmn/commit/fa5913a28c5d716a84b646b89fc1be8944db87f5))
+
 ## [1.3.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.2.0...v1.3.0) (2026-07-09)
 
 
