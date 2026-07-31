@@ -1,82 +1,99 @@
 <template>
-  <div class="dmn-simulate" :style="{ width: props.width }">
-    <p v-if="loading">Loading DMN decision table...</p>
-    <p v-else-if="error" class="text-red-500">{{ error }}</p>
+  <div class="dmn-simulate-host" :style="{ width: props.width }">
+    <!-- When fullscreen, teleport the whole component (form + dmn-js viewer +
+         result) out to <body> so `position: fixed` is relative to the viewport,
+         not the CSS-transform-scaled Slidev slide. Teleport relocates the existing
+         DOM nodes, so the dmn-js viewer instance stays intact — no re-render. -->
+    <Teleport to="body" :disabled="!isFullscreen">
+      <div class="dmn-simulate" :class="{ 'dmn-simulate--fullscreen': isFullscreen }">
+        <p v-if="loading">Loading DMN decision table...</p>
+        <p v-else-if="error" class="text-red-500">{{ error }}</p>
 
-    <!-- Input form: one control per decision-table input -->
-    <form v-if="model" class="sim-inputs" @submit.prevent="runSimulation">
-      <div v-for="(input, i) in model.inputs" :key="input.id" class="sim-field">
-        <label>{{ input.label }}</label>
-        <select v-if="input.options.length" v-model="values[i]">
-          <option value="">–</option>
-          <option v-for="option in input.options" :key="option" :value="option">{{ option }}</option>
-        </select>
-        <input
-          v-else
-          v-model="values[i]"
-          :type="isNumericType(input.typeRef) ? 'number' : 'text'"
-          :placeholder="input.typeRef"
-        />
-      </div>
-      <button
-        type="submit"
-        class="sim-run"
-        :disabled="!isComplete"
-        :title="isComplete ? 'Run the simulation' : 'Fill in every input first'"
-      >Simulate</button>
-      <button type="button" class="sim-reset" @click="reset">Reset</button>
-    </form>
+        <!-- Input form: one control per decision-table input -->
+        <form v-if="model" class="sim-inputs" @submit.prevent="runSimulation">
+          <div v-for="(input, i) in model.inputs" :key="input.id" class="sim-field">
+            <label>{{ input.label }}</label>
+            <select v-if="input.options.length" v-model="values[i]">
+              <option value="">–</option>
+              <option v-for="option in input.options" :key="option" :value="option">{{ option }}</option>
+            </select>
+            <input
+              v-else
+              v-model="values[i]"
+              :type="isNumericType(input.typeRef) ? 'number' : 'text'"
+              :placeholder="input.typeRef"
+            />
+          </div>
+          <button
+            type="submit"
+            class="sim-run"
+            :disabled="!isComplete"
+            :title="isComplete ? 'Run the simulation' : 'Fill in every input first'"
+          >Simulate</button>
+          <button type="button" class="sim-reset" @click="reset">Reset</button>
+          <button
+            type="button"
+            class="sim-fullscreen"
+            :title="isFullscreen ? 'Exit fullscreen' : 'Show fullscreen'"
+            @click="toggleFullscreen"
+          >
+            <svg v-if="isFullscreen" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>
+            </svg>
+            {{ isFullscreen ? 'Exit' : 'Fullscreen' }}
+          </button>
+        </form>
 
-    <!-- The decision table, rendered by dmn-js -->
-    <div
-      ref="containerRef"
-      class="dmn-table-wrapper"
-      :class="{ 'hide-annotations': !props.showAnnotations, 'hide-drd-button': !props.showDrdButton }"
-      :style="{
-        width: `calc(${props.width} - ${5 * 2}px)`,
-        height: props.height,
-        margin: `5px`,
-        '--dmn-table-font-size': props.fontSize,
-      }"
-    ></div>
+        <!-- The decision table, rendered by dmn-js -->
+        <div
+          ref="containerRef"
+          class="dmn-table-wrapper"
+          :class="{ 'hide-annotations': !props.showAnnotations, 'hide-drd-button': !props.showDrdButton }"
+          :style="wrapperStyle"
+        ></div>
 
-    <!-- Result of the last simulation -->
-    <div
-      v-if="result"
-      class="sim-result"
-      :class="{ 'sim-result--miss': !result.matchedRuleIndices.length, 'sim-result--warn': !!result.violation }"
-    >
-      <span class="sim-arrow">→</span>
+        <!-- Result of the last simulation -->
+        <div
+          v-if="result"
+          class="sim-result"
+          :class="{ 'sim-result--miss': !result.matchedRuleIndices.length, 'sim-result--warn': !!result.violation }"
+        >
+          <span class="sim-arrow">→</span>
 
-      <!-- COLLECT with an aggregation collapses to a single scalar -->
-      <span v-if="result.aggregation" class="sim-output">
-        {{ result.aggregation.fn }}({{ result.aggregation.output }}) =
-        <strong>{{ result.aggregation.value }}</strong>
-      </span>
+          <!-- COLLECT with an aggregation collapses to a single scalar -->
+          <span v-if="result.aggregation" class="sim-output">
+            {{ result.aggregation.fn }}({{ result.aggregation.output }}) =
+            <strong>{{ result.aggregation.value }}</strong>
+          </span>
 
-      <!-- One pill per reported output row (list policies show several) -->
-      <template v-else-if="result.outputs.length">
-        <span v-for="(output, oi) in result.outputs" :key="oi" class="sim-output">
-          <template v-for="(value, key) in output" :key="key">
-            {{ key }} = <strong>{{ formatValue(value) }}</strong>
+          <!-- One pill per reported output row (list policies show several) -->
+          <template v-else-if="result.outputs.length">
+            <span v-for="(output, oi) in result.outputs" :key="oi" class="sim-output">
+              <template v-for="(value, key) in output" :key="key">
+                {{ key }} = <strong>{{ formatValue(value) }}</strong>
+              </template>
+            </span>
           </template>
-        </span>
-      </template>
 
-      <span v-else class="sim-none">no matching rule</span>
+          <span v-else class="sim-none">no matching rule</span>
 
-      <span v-if="result.violation" class="sim-violation">⚠ {{ result.violation }}</span>
+          <span v-if="result.violation" class="sim-violation">⚠ {{ result.violation }}</span>
 
-      <span v-if="result.reportedRuleIndices.length" class="sim-rule">
-        {{ result.reportedRuleIndices.length > 1 ? 'Rules' : 'Rule' }}
-        {{ result.reportedRuleIndices.map(i => i + 1).join(', ') }}
-      </span>
-    </div>
+          <span v-if="result.reportedRuleIndices.length" class="sim-rule">
+            {{ result.reportedRuleIndices.length > 1 ? 'Rules' : 'Rule' }}
+            {{ result.reportedRuleIndices.map(i => i + 1).join(', ') }}
+          </span>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { type CSSProperties, computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import DmnViewer from 'dmn-js/lib/Viewer'
 import 'dmn-js/dist/assets/diagram-js.css'
 import 'dmn-js/dist/assets/dmn-js-shared.css'
@@ -94,12 +111,14 @@ const props = withDefaults(defineProps<{
   height?: string
   decisionId?: string
   fontSize?: string
+  fullscreenFontSize?: string
   showAnnotations?: boolean
   showDrdButton?: boolean
 }>(), {
   width: '100%',
   height: '340px',
   fontSize: '12px',
+  fullscreenFontSize: '12px',
   showAnnotations: false,
   showDrdButton: false,
 })
@@ -111,6 +130,42 @@ const values = ref<RawValue[]>([])
 const result = ref<EvaluationResult | null>(null)
 const isRendered = ref(false)
 const isUnmounted = ref(false)
+const isFullscreen = ref(false)
+
+// In fullscreen the table flexes to fill the viewport; in the slide it keeps the
+// author-defined fixed height. Same dmn-js node either way — only the box changes.
+const wrapperStyle = computed<CSSProperties>(() => {
+  if (isFullscreen.value) {
+    const base = { '--dmn-table-font-size': props.fullscreenFontSize } as CSSProperties
+    return { ...base, flex: '1 1 auto', minHeight: '0', width: '100%', margin: '5px 0' }
+  }
+  const base = { '--dmn-table-font-size': props.fontSize } as CSSProperties
+  return {
+    ...base,
+    width: `calc(${props.width} - ${5 * 2}px)`,
+    height: props.height,
+    margin: '5px',
+  }
+})
+
+function openFullscreen() {
+  isFullscreen.value = true
+}
+
+function closeFullscreen() {
+  isFullscreen.value = false
+}
+
+function toggleFullscreen() {
+  isFullscreen.value = !isFullscreen.value
+}
+
+// Escape exits fullscreen, matching the modeler's overlay affordance.
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape' && isFullscreen.value) closeFullscreen()
+}
+
+defineExpose({ openFullscreen, closeFullscreen, toggleFullscreen })
 
 // Only allow simulating once every input has a value — an incomplete input set
 // can never match a concrete rule, so the button stays disabled until then.
@@ -123,6 +178,7 @@ const isComplete = computed(() =>
 
 onBeforeUnmount(() => {
   isUnmounted.value = true
+  window.removeEventListener('keydown', onKeydown)
 })
 
 // Any input change invalidates the previous run — clear the result + highlight
@@ -241,6 +297,7 @@ function formatValue(value: unknown): string {
 }
 
 onMounted(async () => {
+  window.addEventListener('keydown', onKeydown)
   await nextTick()
   await setup()
 })
@@ -255,6 +312,20 @@ onSlideEnter(async () => {
   display: flex;
   flex-direction: column;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Fullscreen overlay: teleported to <body>, so `fixed` is viewport-relative and
+   escapes the scaled Slidev slide. The table wrapper flexes to fill the space. */
+.dmn-simulate.dmn-simulate--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  padding: 20px 28px;
+  box-sizing: border-box;
+  background: white;
+  overflow: hidden;
 }
 
 /* --- Simulation input form --- */
@@ -289,12 +360,21 @@ onSlideEnter(async () => {
 }
 
 .dmn-simulate .sim-run,
-.dmn-simulate .sim-reset {
+.dmn-simulate .sim-reset,
+.dmn-simulate .sim-fullscreen {
   font-size: 13px;
   padding: 5px 12px;
   border-radius: 4px;
   cursor: pointer;
   border: 1px solid #ccc;
+}
+
+.dmn-simulate .sim-fullscreen {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: white;
+  color: #555;
 }
 
 .dmn-simulate .sim-run {
@@ -439,5 +519,15 @@ onSlideEnter(async () => {
 .dmn-simulate .dmn-table-wrapper .bjs-powered-by {
   bottom: 6px !important;
   right: 8px !important;
+}
+
+/* --- Fullscreen: give the rows room to breathe ---
+   With the larger fullscreen font, tighter cell padding would leave the rows
+   cramped and pile up whitespace below the table. Roomier vertical padding makes
+   each row taller so the table reads well from the back of a room and fills more
+   of the viewport. Must come after the `padding: 2px` rule to win on source order. */
+.dmn-simulate--fullscreen .dmn-table-wrapper th:not(:first-child),
+.dmn-simulate--fullscreen .dmn-table-wrapper td:not(:first-child) {
+  padding: 10px 8px !important;
 }
 </style>
