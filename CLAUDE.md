@@ -52,11 +52,12 @@ npx portless service install
 
 The addon consists of four Vue components, backed by shared helpers in `composables/`
 (`useDmn.ts` — fetch + loading/error state), `shared/` (`ui/ToolbarButton.vue`,
-`lib/fitDiagram.ts`, and the simulation stack: `lib/dmnModel.ts` — DMN XML → model,
-`lib/feel.ts` — `feelin` adapter, `lib/hitPolicy.ts` — pure hit-policy semantics,
-`lib/evaluateDecision.ts` — orchestrator wiring the three together) and `engines/`
-(`camunda.ts` — properties-panel config). Each `shared/lib` module has a 1:1 test in
-`tests/lib/`. The
+`lib/fitDiagram.ts`) and `engines/` (`camunda.ts` — properties-panel config). Each
+`shared/lib` module has a 1:1 test in `tests/lib/`. DMN decision-table simulation
+(XML → model, FEEL evaluation, hit policies) is provided by the external
+[`@emaarco/dmn-js-simulation`](https://github.com/emaarco/dmn-simulation) package — its
+headless evaluation core (`parseDecisionModelFromXml`, `evaluateDecision`) is consumed
+directly by `DmnSimulate.vue`. The
 `composables/`, `shared/` and `engines/` directories are published to npm alongside
 `components/`.
 
@@ -79,11 +80,11 @@ dependency-cruiser (`npm run lint:deps`, config in `.dependency-cruiser.cjs`).
 4. **Dual lifecycle**: Uses both `onMounted` and `onSlideEnter` for PDF export and live preview compatibility
 
 #### `components/DmnSimulate.vue`
-1. **Fetches + parses DMN XML**: Loads the `.dmn` file, then parses the decision table into a plain model (`shared/lib/dmnModel.ts`) — inputs, outputs, rules and hit policy
+1. **Fetches + parses DMN XML**: Loads the `.dmn` file, then parses the decision table into a plain model via `parseDecisionModelFromXml` from `@emaarco/dmn-js-simulation` — inputs, outputs, rules and hit policy
 2. **Renders the table**: Same in-DOM `dmn-js/lib/Viewer` approach as `DmnTable`
 3. **Input form**: One control per input (dropdown for string columns with literal values, number/text field otherwise), derived from the parsed model
-4. **Evaluates with FEEL**: On "Simulate", runs each rule's unary tests via the `feelin` engine (`shared/lib/evaluateDecision.ts`) — this is the DMN analogue of BPMN token simulation (DMN is declarative, so "simulation" = evaluate inputs → which rule fires)
-5. **Applies the hit policy**: `shared/lib/hitPolicy.ts` implements the full DMN set — UNIQUE, ANY, PRIORITY, FIRST, COLLECT (with SUM/MIN/MAX/COUNT aggregation), RULE ORDER, OUTPUT ORDER. No JS/browser DMN engine covers this set (`dmn-eval-js` and forks are unmaintained since 2022 and lack PRIORITY/OUTPUT ORDER/aggregation), so the table-orchestration layer is owned here on top of `feelin` (accessed via `shared/lib/feel.ts`, which handles only FEEL expressions/unary tests). PRIORITY/OUTPUT ORDER rank by the output's `<outputValues>` list; UNIQUE/ANY flag a `violation`
+4. **Evaluates with FEEL**: On "Simulate", calls `evaluateDecision` from `@emaarco/dmn-js-simulation`, which runs each rule's FEEL unary tests (via `feelin`) to find matches — this is the DMN analogue of BPMN token simulation (DMN is declarative, so "simulation" = evaluate inputs → which rule fires)
+5. **Applies the hit policy**: the package covers the full DMN set — UNIQUE, ANY, PRIORITY, FIRST, COLLECT (with SUM/MIN/MAX/COUNT aggregation), RULE ORDER, OUTPUT ORDER. No JS/browser DMN engine covers this set (`dmn-eval-js` and forks are unmaintained since 2022 and lack PRIORITY/OUTPUT ORDER/aggregation), so the table-orchestration layer is owned by the package on top of `feelin`. PRIORITY/OUTPUT ORDER rank by the output's `<outputValues>` list; UNIQUE/ANY flag a `violation`
 6. **Highlights the result**: reported rule(s) get a strong `sim-match` class, rules that matched but were dropped by the policy get a faint `sim-candidate` class (mapped by rule index → row order); shows the output(s), an aggregate, or a violation badge. One demo slide per policy lives in `example.md` (`public/hit-policies/*.dmn`)
 
 #### `components/DmnModeler.vue`
