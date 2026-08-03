@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.5.1...v1.6.0) (2026-08-03)
+
+
+### Features
+
+* migrate example deck to Miragon slidev-toolkit ([#61](https://github.com/emaarco/slidev-addon-dmn/issues/61)) ([b74a613](https://github.com/emaarco/slidev-addon-dmn/commit/b74a613bcb2f0c836e07bb5c1b0f3e58930f37bf))
+
 ## [1.5.1](https://github.com/emaarco/slidev-addon-dmn/compare/v1.5.0...v1.5.1) (2026-07-31)
 
 
