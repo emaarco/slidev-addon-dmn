@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.6.0...v1.7.0) (2026-08-03)
+
+
+### Features
+
+* replace vendored DMN simulation with @emaarco/dmn-js-simulation ([#66](https://github.com/emaarco/slidev-addon-dmn/issues/66)) ([f0b64b4](https://github.com/emaarco/slidev-addon-dmn/commit/f0b64b4152848819fde2921f31081a623062ecdf))
+
 ## [1.6.0](https://github.com/emaarco/slidev-addon-dmn/compare/v1.5.1...v1.6.0) (2026-08-03)
 
 
