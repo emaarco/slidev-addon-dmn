@@ -59,7 +59,7 @@ eyebrow: Dmn-Table
 accent: blue
 diagram: /example.dmn
 mode: table
-height: 340px
+height: 275px
 fontSize: 10px
 ---
 
@@ -92,7 +92,7 @@ eyebrow: Dmn-Simulate
 accent: green
 diagram: /example.dmn
 mode: simulate
-height: 300px
+height: 225px
 fontSize: 9px
 ---
 
@@ -166,7 +166,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/unique.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -179,7 +179,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/first.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -192,7 +192,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/priority.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -205,7 +205,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/any.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -218,7 +218,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/collect.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -231,7 +231,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/collect-sum.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -244,7 +244,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/rule-order.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
@@ -257,7 +257,7 @@ eyebrow: Hit Policy
 accent: green
 diagram: /hit-policies/output-order.dmn
 mode: simulate
-height: 250px
+height: 225px
 fontSize: 10px
 ---
 
