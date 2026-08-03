@@ -21,16 +21,27 @@ describe('evaluateDecision — FIRST decision table (example.dmn)', () => {
   })
 
   it('evaluates numeric unary tests (<= / >)', () => {
-    expect(evaluateDecision(dish, ['Winter', 8]).outputs).toEqual([{ Dish: 'Roastbeef' }])
-    expect(evaluateDecision(dish, ['Spring', 4]).outputs).toEqual([{ Dish: 'Dry Aged Gourmet Steak' }])
-    expect(evaluateDecision(dish, ['Spring', 5]).outputs).toEqual([{ Dish: 'Stew' }])
+    expect(evaluateDecision(dish, ['Winter', 8]).outputs).toEqual([{ Dish: 'Roastbeef' }]) // <= 8
+    expect(evaluateDecision(dish, ['Spring', 5]).outputs).toEqual([{ Dish: 'Stew' }])      // > 4
+    expect(evaluateDecision(dish, ['Spring', 4]).outputs).toEqual([])                       // > 4 fails
   })
 
   it('treats an empty input cell as a wildcard match', () => {
-    // Rule 5 (Summer) has an empty guest-count cell — any count matches.
-    const r = evaluateDecision(dish, ['Summer', 999])
-    expect(r.matchedRuleIndices).toEqual([4])
-    expect(r.outputs).toEqual([{ Dish: 'Light Salad and a nice Steak' }])
+    // The "Summer" rule leaves the guest-count cell empty, so any count matches.
+    const wildcardXml = `<?xml version="1.0" encoding="UTF-8"?>
+      <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="d" name="d">
+        <decision id="Decision_W" name="W">
+          <decisionTable id="T" hitPolicy="FIRST">
+            <input id="i1"><inputExpression id="ie1" typeRef="string"><text>Season</text></inputExpression></input>
+            <input id="i2"><inputExpression id="ie2" typeRef="integer"><text>Guests</text></inputExpression></input>
+            <output id="o" label="Dish" name="Dish" typeRef="string" />
+            <rule id="r1"><inputEntry id="e1"><text>"Summer"</text></inputEntry><inputEntry id="e2"><text></text></inputEntry><outputEntry id="oe1"><text>"Salad"</text></outputEntry></rule>
+          </decisionTable>
+        </decision>
+      </definitions>`
+    const r = evaluateDecision(parseDecisionModel(wildcardXml), ['Summer', 999])
+    expect(r.matchedRuleIndices).toEqual([0])
+    expect(r.outputs).toEqual([{ Dish: 'Salad' }])
   })
 
   it('reports no match when nothing fires', () => {

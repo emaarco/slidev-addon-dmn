@@ -13,7 +13,7 @@ describe('parseDecisionModel', () => {
     expect(model.hitPolicy).toBe('FIRST')
     expect(model.inputs.map(i => i.label)).toEqual(['Season', 'Number of Guests'])
     expect(model.outputs.map(o => o.name)).toEqual(['Dish'])
-    expect(model.rules).toHaveLength(5)
+    expect(model.rules).toHaveLength(3)
   })
 
   it('derives the correct types and dropdown options per input column', () => {
@@ -21,7 +21,7 @@ describe('parseDecisionModel', () => {
     const [season, guests] = model.inputs
 
     expect(season.typeRef).toBe('string')
-    expect(season.options).toEqual(['Fall', 'Winter', 'Spring', 'Summer'])
+    expect(season.options).toEqual(['Fall', 'Winter', 'Spring'])
     expect(guests.typeRef).toBe('integer')
     expect(guests.options).toEqual([]) // numeric column → no literal dropdown
   })

@@ -47,18 +47,8 @@
       </rule>
       <rule id="Rule_3">
         <inputEntry id="IE_3_1"><text>"Spring"</text></inputEntry>
-        <inputEntry id="IE_3_2"><text>&lt;= 4</text></inputEntry>
-        <outputEntry id="OE_3"><text>"Dry Aged Gourmet Steak"</text></outputEntry>
-      </rule>
-      <rule id="Rule_4">
-        <inputEntry id="IE_4_1"><text>"Spring"</text></inputEntry>
-        <inputEntry id="IE_4_2"><text>&gt; 4</text></inputEntry>
-        <outputEntry id="OE_4"><text>"Stew"</text></outputEntry>
-      </rule>
-      <rule id="Rule_5">
-        <inputEntry id="IE_5_1"><text>"Summer"</text></inputEntry>
-        <inputEntry id="IE_5_2"><text></text></inputEntry>
-        <outputEntry id="OE_5"><text>"Light Salad and a nice Steak"</text></outputEntry>
+        <inputEntry id="IE_3_2"><text>&gt; 4</text></inputEntry>
+        <outputEntry id="OE_3"><text>"Stew"</text></outputEntry>
       </rule>
     </decisionTable>
   </decision>

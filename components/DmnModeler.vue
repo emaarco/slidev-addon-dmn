@@ -174,7 +174,6 @@ async function waitForContainer(containerRef: Ref<HTMLDivElement | null>): Promi
   })
 }
 
-/** Fit the DRD view of a dmn-js viewer/modeler instance into its container. */
 function fitActiveDrd(instance: any): void {
   const activeViewer = instance.getActiveViewer?.()
   const canvas = activeViewer?.get?.('canvas')
