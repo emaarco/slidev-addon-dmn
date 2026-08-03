@@ -32,7 +32,7 @@ height: 300px
 fontSize: 11px
 ---
 
-The graphical Decision Requirements Diagram, rendered as a clean static SVG. Best for print and PDF export.
+The Decision Requirements Diagram as a clean static SVG. Ideal for print and PDF.
 
 ---
 layout: content
@@ -60,10 +60,10 @@ accent: blue
 diagram: /example.dmn
 mode: table
 height: 340px
-fontSize: 11px
+fontSize: 10px
 ---
 
-The decision table itself, rules laid out row by row so the audience sees exactly how each decision is made.
+The decision table itself, every rule laid out row by row.
 
 ---
 layout: content
@@ -93,10 +93,10 @@ accent: green
 diagram: /example.dmn
 mode: simulate
 height: 300px
-fontSize: 10px
+fontSize: 9px
 ---
 
-Pick the inputs, run the decision, and watch the matching rule light up. DMN's answer to BPMN token simulation.
+Pick the inputs, run the decision, watch the matching rule light up.
 
 ---
 layout: content
@@ -129,7 +129,7 @@ engine: camunda
 height: 320px
 ---
 
-Edit the decision live in a workshop. Double-click a decision to open its table, with an optional Camunda properties panel.
+Edit the decision live in a workshop, with an optional Camunda properties panel.
 
 ---
 layout: content
@@ -167,10 +167,10 @@ accent: green
 diagram: /hit-policies/unique.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-At most one rule may match. The ranges do not overlap, so a Spend of 3000 picks exactly one tier. Two matches would raise a violation.
+At most one rule may match. The ranges never overlap, so a Spend of 3000 picks exactly one tier.
 
 ---
 layout: dmn
@@ -180,10 +180,10 @@ accent: green
 diagram: /hit-policies/first.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-Rules overlap and the first match wins. An OrderTotal of 600 matches all three, but only 20 percent fires; the rows below stay greyed-out candidates.
+Rules overlap and the first match wins. An OrderTotal of 600 matches all three, but only 20 percent fires.
 
 ---
 layout: dmn
@@ -193,10 +193,10 @@ accent: green
 diagram: /hit-policies/priority.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-Overlapping rules, but the output with the highest priority wins. A Score of 550 matches all three, yet Decline wins, not the first row.
+The highest-priority output wins. A Score of 550 matches all three, yet Decline wins, not the first row.
 
 ---
 layout: dmn
@@ -206,10 +206,10 @@ accent: green
 diagram: /hit-policies/any.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-Several rules may match, as long as they agree. An Age of 25 matches both rules and both say Granted. Differing outputs would raise a violation.
+Several rules may match, as long as they agree. An Age of 25 matches both, and both say Granted.
 
 ---
 layout: dmn
@@ -219,7 +219,7 @@ accent: green
 diagram: /hit-policies/collect.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
 Gather all matching outputs as a list. A Cart of 250 collects every applicable promotion.
@@ -232,10 +232,10 @@ accent: green
 diagram: /hit-policies/collect-sum.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-An aggregation collapses the matches into one number. A Cart of 250 sums the loyalty points to 35. MIN, MAX and COUNT work the same way.
+An aggregation collapses the matches into one number. A Cart of 250 sums the loyalty points to 35.
 
 ---
 layout: dmn
@@ -245,7 +245,7 @@ accent: green
 diagram: /hit-policies/rule-order.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
 Like COLLECT, but the list keeps the table order. A Temp of 40 returns Heat, then Extreme Heat.
@@ -258,10 +258,10 @@ accent: green
 diagram: /hit-policies/output-order.dmn
 mode: simulate
 height: 250px
-fontSize: 11px
+fontSize: 10px
 ---
 
-All matches, sorted by output priority. The same input as RULE ORDER, but the order flips to Extreme Heat, then Heat.
+All matches, sorted by output priority. A Temp of 40 flips to Extreme Heat, then Heat.
 
 ---
 layout: person

@@ -69,7 +69,7 @@ describe('DmnSimulate.vue', () => {
     // Season is a string column with literal values → dropdown
     const options = wrapper.find('.sim-field select').findAll('option').map(o => o.text())
     expect(options).toContain('Fall')
-    expect(options).toContain('Summer')
+    expect(options).toContain('Spring')
     // Guest count is numeric → number input
     expect(wrapper.find('.sim-field input[type="number"]').exists()).toBe(true)
   })
