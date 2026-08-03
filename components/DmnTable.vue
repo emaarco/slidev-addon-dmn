@@ -56,10 +56,8 @@ const props = withDefaults(defineProps<{
 
 const containerHeight = computed(() => props.height === 'auto' ? '500px' : props.height)
 
-/**
- * Polls for container dimensions to be ready before rendering.
- * Prevents "non-finite" SVG matrix errors when canvas operations are called.
- */
+// Wait for the container to have dimensions; dmn-js throws "non-finite" SVG
+// matrix errors if it measures a zero-size element.
 async function waitForContainer(): Promise<void> {
   return new Promise((resolve) => {
     const checkDimensions = () => {
@@ -75,13 +73,9 @@ async function waitForContainer(): Promise<void> {
   })
 }
 
-/**
- * Renders the DMN decision table.
- * Includes duplicate prevention since Slidev calls both onMounted and onSlideEnter.
- */
+// Guarded against the duplicate onMounted/onSlideEnter calls Slidev makes.
 async function renderDmnTable() {
 
-  // Prevent duplicate rendering
   if (isRendered.value) return
   isRendered.value = true
   loading.value = true
@@ -97,7 +91,6 @@ async function renderDmnTable() {
 
     await viewer.importXML(dmnXml)
 
-    // Find and open the decision table view
     const views = viewer.getViews()
     const tableView = props.decisionId
       ? views.find((v: any) => v.type === 'decisionTable' && v.element?.id === props.decisionId)
@@ -118,26 +111,19 @@ async function renderDmnTable() {
   }
 }
 
-/**
- * Render on the component mount for PDF export compatibility.
- * In headless export mode, onSlideEnter doesn't fire.
- */
+// Render on mount for PDF export: onSlideEnter doesn't fire in headless mode.
 onMounted(async () => {
   await nextTick()
   await renderDmnTable()
 })
 
-/**
- * Render when the slide becomes active in a live preview.
- * Container dimensions are only valid when the slide is visible.
- */
+// Render on slide enter: the container only has valid dimensions when visible.
 onSlideEnter(async () => {
   await renderDmnTable()
 })
 </script>
 
 <style>
-/* Apply custom font size via CSS variable to override all dmn-js internal font sizes */
 .dmn-table-wrapper .dmn-decision-table-container {
   font-size: var(--dmn-table-font-size, 12px) !important;
 }
@@ -178,13 +164,11 @@ onSlideEnter(async () => {
   table-layout: fixed !important;
 }
 
-/* Compact cell padding */
 .dmn-table-wrapper th:not(:first-child),
 .dmn-table-wrapper td:not(:first-child) {
   padding: 2px !important;
 }
 
-/* Compact header height */
 .dmn-table-wrapper thead .input-label,
 .dmn-table-wrapper thead .input-expression,
 .dmn-table-wrapper thead .output-label,
@@ -196,18 +180,15 @@ onSlideEnter(async () => {
   height: 16px !important;
 }
 
-/* Shrink index column */
 .dmn-table-wrapper th.index-column {
   width: 36px !important;
 }
 
-/* Hide annotations column when toggled off */
 .dmn-table-wrapper.hide-annotations th.annotation,
 .dmn-table-wrapper.hide-annotations td.annotation {
   display: none !important;
 }
 
-/* Hide the "View DRD" button when toggled off */
 .dmn-table-wrapper.hide-drd-button .view-drd {
   display: none !important;
 }

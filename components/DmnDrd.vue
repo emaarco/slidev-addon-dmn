@@ -36,7 +36,6 @@ onMounted(() => {
 async function loadAndRenderDrd(path: string): Promise<void> {
   const dmnXml = await fetchDmnXml(path)
 
-  // Create off-screen container for dmn-js rendering (requires DOM element)
   const container = document.createElement('div')
   container.style.width = '1920px'
   container.style.height = '1080px'
@@ -56,7 +55,6 @@ async function loadAndRenderDrd(path: string): Promise<void> {
   try {
     await viewer.importXML(dmnXml)
 
-    // Navigate to the DRD view
     const views = viewer.getViews()
     const drdView = views.find((v: any) => v.type === 'drd')
     if (!drdView) {

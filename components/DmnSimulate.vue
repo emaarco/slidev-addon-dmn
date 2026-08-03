@@ -9,7 +9,6 @@
         <p v-if="loading">Loading DMN decision table...</p>
         <p v-else-if="error" class="text-red-500">{{ error }}</p>
 
-        <!-- Input form: one control per decision-table input -->
         <form v-if="model" class="sim-inputs" @submit.prevent="runSimulation">
           <div v-for="(input, i) in model.inputs" :key="input.id" class="sim-field">
             <label>{{ input.label }}</label>
@@ -47,7 +46,6 @@
           </button>
         </form>
 
-        <!-- The decision table, rendered by dmn-js -->
         <div
           ref="containerRef"
           class="dmn-table-wrapper"
@@ -55,7 +53,6 @@
           :style="wrapperStyle"
         ></div>
 
-        <!-- Result of the last simulation -->
         <div
           v-if="result"
           class="sim-result"
@@ -205,11 +202,8 @@ async function waitForContainer(): Promise<void> {
   })
 }
 
-/**
- * Fetch the DMN once, parse it into a simulation model, then render the table
- * via dmn-js. Guarded against the duplicate onMounted/onSlideEnter calls Slidev
- * makes (mirrors DmnTable).
- */
+// Guarded against the duplicate onMounted/onSlideEnter calls Slidev makes
+// (mirrors DmnTable).
 async function setup() {
   if (isRendered.value) return
   isRendered.value = true
