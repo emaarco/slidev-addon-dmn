@@ -18,7 +18,7 @@ That's it — your DMN diagrams are ready to present!
 
 ## Example Slide
 
-![Example DMN diagram in Slidev](./public/addon.gif)
+![Example DMN diagram in Slidev](./public/addon.png)
 
 ## 📦 Installation
 
