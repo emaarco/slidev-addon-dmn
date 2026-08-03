@@ -24,7 +24,7 @@ Static diagram, live decision simulation, or an editable modeler; all from the s
 ---
 layout: dmn
 title: Static requirement diagrams
-eyebrow: DmnDrd
+eyebrow: Dmn-Drd
 accent: blue
 diagram: /example.dmn
 mode: drd
@@ -37,7 +37,7 @@ The graphical Decision Requirements Diagram, rendered as a clean static SVG. Bes
 ---
 layout: content
 title: The DmnDrd component
-eyebrow: DmnDrd
+eyebrow: Dmn-Drd
 accent: blue
 ---
 
@@ -55,7 +55,7 @@ Renders the DRD of a `.dmn` file as a static, inline SVG. Ideal for print and PD
 ---
 layout: dmn
 title: Static decision tables
-eyebrow: DmnTable
+eyebrow: Dmn-Table
 accent: blue
 diagram: /example.dmn
 mode: table
@@ -68,7 +68,7 @@ The decision table itself, rules laid out row by row so the audience sees exactl
 ---
 layout: content
 title: The DmnTable component
-eyebrow: DmnTable
+eyebrow: Dmn-Table
 accent: blue
 ---
 
@@ -88,7 +88,7 @@ Renders a decision table directly as HTML, so the rules stay crisp and readable.
 ---
 layout: dmn
 title: Live decision simulation
-eyebrow: DmnSimulate
+eyebrow: Dmn-Simulate
 accent: green
 diagram: /example.dmn
 mode: simulate
@@ -101,11 +101,11 @@ Pick the inputs, run the decision, and watch the matching rule light up. DMN's a
 ---
 layout: content
 title: The DmnSimulate component
-eyebrow: DmnSimulate
+eyebrow: Dmn-Simulate
 accent: green
 ---
 
-Turns a table into a live decision. Feed inputs in, evaluate them with FEEL, and highlight the firing rule.
+Simulate a decision. Feed inputs in, evaluate them with FEEL, and highlight the firing rule.
 
 | Prop | Type | Description |
 |---|---|---|
@@ -121,7 +121,7 @@ Turns a table into a live decision. Feed inputs in, evaluate them with FEEL, and
 ---
 layout: dmn
 title: Live DMN modeler
-eyebrow: DmnModeler
+eyebrow: Dmn-Modeler
 accent: blue
 diagram: /example.dmn
 mode: modeler
@@ -134,7 +134,7 @@ Edit the decision live in a workshop. Double-click a decision to open its table,
 ---
 layout: content
 title: The DmnModeler component
-eyebrow: DmnModeler
+eyebrow: Dmn-Modeler
 accent: blue
 ---
 
@@ -151,7 +151,7 @@ A full modeler canvas for workshops. Omit the file for a blank canvas, or set an
 
 ---
 layout: section
-eyebrow: DmnSimulate
+eyebrow: Dmn-Simulate
 accent: green
 ---
 
