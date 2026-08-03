@@ -103,7 +103,7 @@ Renders DMN Decision Tables directly in the slide. Perfect for presenting busine
 
 ### DmnSimulate Component
 
-Renders a Decision Table together with an input form and evaluates it live. Pick the inputs, hit **Simulate**, and the matching rule row is highlighted while the resulting output is shown below the table. Because DMN is declarative (no wandering token like BPMN), this is the DMN equivalent of a token simulation: feed inputs in, watch which rule fires. FEEL expressions are evaluated with the [feelin](https://github.com/nikku/feelin) engine.
+Renders a Decision Table together with an input form and evaluates it live. Pick the inputs, hit **Simulate**, and the matching rule row is highlighted while the resulting output is shown below the table. Because DMN is declarative (no wandering token like BPMN), this is the DMN equivalent of a token simulation: feed inputs in, watch which rule fires. Evaluation (FEEL matching + hit policies) is powered by the [`@emaarco/dmn-js-simulation`](https://github.com/emaarco/dmn-simulation) package, which evaluates FEEL expressions with the [feelin](https://github.com/nikku/feelin) engine.
 
 Use the **Fullscreen** button next to the form to blow the whole simulation up to the full viewport — handy for wide tables in workshops. Press **Escape** or click **Exit** to return to the slide; the current inputs and result are preserved.
 

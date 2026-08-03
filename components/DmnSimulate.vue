@@ -99,8 +99,14 @@ import 'dmn-js/dist/assets/dmn-js-decision-table-controls.css'
 import 'dmn-js/dist/assets/dmn-font/css/dmn-embedded.css'
 import { onSlideEnter } from '@slidev/client'
 import { useDmn } from '../composables/useDmn'
-import { isNumericType, parseDecisionModel, type DecisionModel } from '../shared/lib/dmnModel'
-import { evaluateDecision, type EvaluationResult, type RawValue } from '../shared/lib/evaluateDecision'
+import {
+  evaluateDecision,
+  isNumericType,
+  parseDecisionModelFromXml,
+  type DecisionModel,
+  type EvaluationResult,
+  type RawValue,
+} from '@emaarco/dmn-js-simulation'
 
 const props = withDefaults(defineProps<{
   dmnFilePath: string
@@ -215,7 +221,7 @@ async function setup() {
     if (isUnmounted.value) return
 
     const dmnXml = await fetchDmnXml(props.dmnFilePath)
-    model.value = parseDecisionModel(dmnXml, props.decisionId)
+    model.value = parseDecisionModelFromXml(dmnXml, props.decisionId)
     values.value = model.value.inputs.map(() => '')
 
     // Let the container mount before dmn-js measures it.
