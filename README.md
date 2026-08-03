@@ -204,4 +204,3 @@ npm run dev:app    # or run the Slidev server directly, without portless
 ## 🙏 Credits
 
 - [dmn-js](https://github.com/bpmn-io/dmn-js) by [bpmn.io](https://bpmn.io/)
-- [bavaria-ipsum](https://bavaria-ipsum.de/) - for making the example slide a little more entertaining 🥨
