@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5
 
-      - uses: Miragon/pin-npm-dependencies@58fe24377aef66748a1444ff69ab05e3f938a798 # v1
+      - uses: Miragon/pin-npm-dependencies@3f7f02fa2454cdd2cdb65df19b081c0d77d301a5 # v1
         with:
           files: package.json
 
