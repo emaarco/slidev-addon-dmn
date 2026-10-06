@@ -18,10 +18,10 @@
   "author": "Marco Schäck (https://github.com/emaarco)",
   "license": "MIT",
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.55.0",
+    "@bpmn-io/properties-panel": "3.56.0",
     "@emaarco/dmn-js-simulation": "0.3.1",
     "camunda-dmn-moddle": "1.3.1",
-    "dmn-js": "17.12.0",
+    "dmn-js": "17.12.2",
     "dmn-js-properties-panel": "3.12.0"
   },
   "peerDependencies": {
@@ -34,11 +34,11 @@
     "@slidev/theme-default": "0.25.0",
     "@vitejs/plugin-vue": "6.0.9",
     "@vue/test-utils": "2.5.1",
-    "dependency-cruiser": "18.4.0",
+    "dependency-cruiser": "18.5.0",
     "jsdom": "30.1.1",
     "playwright-chromium": "1.63.0",
-    "portless": "0.15.6",
-    "vitest": "5.0.2"
+    "portless": "0.15.7",
+    "vitest": "5.0.3"
   },
   "keywords": [
     "slidev",
